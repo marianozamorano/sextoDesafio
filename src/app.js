@@ -10,6 +10,8 @@ const exphbs = require("express-handlebars");
 const socket = require("socket.io");
 require("./database.js");
 const sessionsRouter = require("./routes/sessions.router.js");
+const passport = require("passport");
+const initializePassport = require("./config/passport.config.js");
 
 //Express-Handlebars
 app.engine("handlebars", exphbs.engine());
@@ -35,6 +37,11 @@ app.use(session({
         ttl: 100
     })
 }))
+
+//Cambios con Passport:
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 //Rutas: 
 app.use("/api/products", productsRouter);
